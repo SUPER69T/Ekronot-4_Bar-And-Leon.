@@ -53,6 +53,7 @@ class Time:
     def __eq__(self, other):
         return self.minutes == other.minutes and self.hours == other.hours
 
+
     def __str__(self):
         return f"{self.get_minutes()}:{self.get_hours()}"
 
@@ -80,7 +81,14 @@ class CalendarEntry(Date):
         self.tasks = task_list
 
     def addTask(self, task_name, start_time, end_time):
-        if Date.date_not_taken(): self.task_list.append([task_name, start_time, end_time])
+        start_time_taken = False
+        end_time_taken = False
+        for n in self.tasks:
+            if start_time == n[1]: start_time_taken = True
+            if end_time == n[2]: end_time_taken = True
+
+        if start_time_taken and end_time_taken:
+            raise ValueError(f"Task {task_name} was already taken")
         else:
             self.tasks = {[start_time, end_time]: task_name}
 
@@ -89,7 +97,7 @@ class CalendarEntry(Date):
     def __repr__(self):
         return self.get_day(), self.get_month(), self.get_year(), self.get_tasks()
 
-
+# today = Date(2025, 9, 24)
 # ------------------------------------------------
 '''
 >>> today = Date(2025, 9, 24)
