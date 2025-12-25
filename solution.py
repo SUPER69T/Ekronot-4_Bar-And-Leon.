@@ -1,13 +1,15 @@
 from functools import reduce
+from unittest import case
+
 
 # ------------------------------------------------
 # Q1 - OOP (Python)
 # ------------------------------------------------
 class Date:
-    def __init__(self, day, month, year):
-        self.day=day
-        self.month=month
-        self.year=year
+    def __init__(self, year, month, day):
+        self.day = day
+        self.month = month
+        self.year = year
 
     def get_day(self):
         return self.day
@@ -16,20 +18,29 @@ class Date:
     def get_year(self):
         return self.year
 
-    def date_not_taken(self, other):
-        return self.day == other.day and self.month == other.month and self.year == other.year
-
     def __str__(self):
-        return f"{self.get_day()}/{self.get_month()}/{self.get_year()}"
-
+        match self.month:
+            case 1: m = "january"
+            case 2: m = "february"
+            case 3: m = "march"
+            case 4: m = "april"
+            case 5: m = "may"
+            case 6: m = "june"
+            case 7: m = "july"
+            case 8: m = "august"
+            case 9: m = "september"
+            case 10: m = "october"
+            case 11: m = "november"
+            case 12: m = "december"
+        return f"{self.get_day()}th of {m}, {self.get_year()}"
     def __repr__(self):
-        return f"day: {self.get_day()}, month: {self.get_month()}, year: {self.get_year()}"
+        return self.get_day(), self.get_month(), self.get_year()
 
 
 
 # ------------------------------------------------
 class Time:
-    def __init(self,hours,minutes):
+    def __init__(self, minutes,hours):
         self.hours=hours
         self.minutes=minutes
 
@@ -53,12 +64,30 @@ class Time:
 class CalendarEntry(Date):
     def __init__(self, day, month, year):
         super().__init__(day, month, year)
-        self.task_list = []
+        self.tasks = {}
+
+    #getters:
+    def get_day(self):
+        return self.day
+    def get_month(self):
+        return self.month
+    def get_year(self):
+        return self.year
+    def get_tasks(self):
+        return self.tasks
+    #setters:
+    def set_task_list(self,task_list):
+        self.tasks = task_list
 
     def addTask(self, task_name, start_time, end_time):
         if Date.date_not_taken(): self.task_list.append([task_name, start_time, end_time])
         else:
-            raise ValueError(f"Task {task_name} was already taken")
+            self.tasks = {[start_time, end_time]: task_name}
+
+    def __str__(self):
+        return self.get_tasks()
+    def __repr__(self):
+        return self.get_day(), self.get_month(), self.get_year(), self.get_tasks()
 
 
 # ------------------------------------------------
@@ -77,7 +106,7 @@ Date(2025,9,24)
 >>> todo.addTask('PPL lecture', t, Time(13,0))
 >>> todo.addTask('PPL homework#4', Time(14,0), Time(16,0))
 >>> todo.tasks
-{('14:00', '16:00'): 'PPL homework#4', ('10:00', '13:00'): 'PPL lecture'}
+{('14:00', '16:00'): 'PPL homework#4', ('10:00', '13:00'): 'PPL lecture'} #we weren't given accurate instructions on whether overlap is legal... 
 >>> print(todo)
 Todo list for 24th of Sep, 2025 :
 1. 10:00 - 13:00 - PPL lecture
@@ -698,7 +727,6 @@ def driver():
     print(repr(t3))
     print(is_AVL_tree(t3))
     """
-
 # ------------------------------------------------
 '''
 <<< Q1 >>>
@@ -751,5 +779,4 @@ False
 Tree(4,[Tree(3,[Tree(1,[Tree(19), Tree(1), Tree(6)]), Tree(2,[Tree(1), Tree(1,[Tree(2), Tree(3)])])]), Tree(3,[Tree(2,[Tree(1,[Tree(1), Tree(2)]), Tree(6)]), Tree(2,[Tree(5), Tree(6), Tree(1,[Tree(8), Tree(2)])])])])
 True
 '''
-
-
+driver()
