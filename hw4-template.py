@@ -1,110 +1,15 @@
 from functools import reduce
-from unittest import case
-
 # ------------------------------------------------
 # Q1 - OOP (Python)
 # ------------------------------------------------
 class Date:
-    def __init__(self, year, month, day):
-        self.day = day
-        self.month = month
-        self.year = year
-
-    def get_day(self):
-        return self.day
-    def get_month(self):
-        return self.month
-    def get_year(self):
-        return self.year
-
-    def __str__(self):
-        match self.month:
-            case 1: m = "january"
-            case 2: m = "february"
-            case 3: m = "march"
-            case 4: m = "april"
-            case 5: m = "may"
-            case 6: m = "june"
-            case 7: m = "july"
-            case 8: m = "august"
-            case 9: m = "september"
-            case 10: m = "october"
-            case 11: m = "november"
-            case 12: m = "december"
-        return f"{self.get_day()}th of {m}, {self.get_year()}"
-    def __repr__(self):
-        return str(self.get_day()) + str(self.get_month()) + str(self.get_year())
-
+    pass
 # ------------------------------------------------
 class Time:
-    def __init__(self, minutes, hours):
-        self.hours = hours
-        self.minutes = minutes
-
-    def get_hours(self):
-        return self.hours
-
-    def get_minutes(self):
-        return self.minutes
-
-    def __eq__(self, other):
-        return self.minutes == other.minutes and self.hours == other.hours
-
-    def __hash__(self):
-        return hash((self.get_minutes(), self.get_hours()))
-
-    def __str__(self):
-        return f"{self.get_minutes():02}:{self.get_hours():02}"
-
-    def __repr__(self):
-        return f"{self.get_minutes():02}:{self.get_hours():02}"
-
-
+    pass
 # ------------------------------------------------
 class CalendarEntry(Date):
-    def __init__(self, day, month, year):
-        super().__init__(day, month, year)
-        self.tasks = {}
-
-    #getters:
-    def get_day(self):
-        return self.day
-    def get_month(self):
-        return self.month
-    def get_year(self):
-        return self.year
-    def get_tasks(self):
-        return self.tasks
-
-    #setters:
-    #def set_task_list(self,task_list):
-    #    self.tasks = task_list
-
-    def addTask(self, task_name, start_time, end_time):
-        start_time_taken = False
-        end_time_taken = False
-        for n1,n2 in self.tasks.keys():
-            if start_time == n1: start_time_taken = True
-            if end_time == n2: end_time_taken = True
-
-        if start_time_taken and end_time_taken:
-            raise ValueError(f"Task {task_name} was already taken")
-        else:
-            # self.tasks = {(start_time, end_time) : task_name}
-            self.tasks[(start_time, end_time)] = task_name
-            # self.tasks
-
-    def __str__(self):
-        output_list = ""
-
-        for i, ((k1, k2), v) in enumerate(self.tasks.items()):
-            output_list += f"{i + 1}. {k1.__str__()} - {k2.__str__()} - {v}.\n"
-
-        return f"Todo list for {super().__str__()}:\n{output_list}"
-
-    def __repr__(self):
-        return f"{self.get_day()}, {self.get_month()}, {self.get_year()}, {self.get_tasks()}"
-
+    pass
 # ------------------------------------------------
 '''
 >>> today = Date(2025, 9, 24)
@@ -121,48 +26,36 @@ Date(2025,9,24)
 >>> todo.addTask('PPL lecture', t, Time(13,0))
 >>> todo.addTask('PPL homework#4', Time(14,0), Time(16,0))
 >>> todo.tasks
-{('14:00', '16:00'): 'PPL homework#4', ('10:00', '13:00'): 'PPL lecture'} #we weren't given accurate instructions on whether overlap is legal... 
+{('14:00', '16:00'): 'PPL homework#4', ('10:00', '13:00'): 'PPL lecture'}
 >>> print(todo)
 Todo list for 24th of Sep, 2025 :
 1. 10:00 - 13:00 - PPL lecture
 2. 14:00 - 16:00 - PPL homework#4
 '''
 
-
 # ------------------------------------------------
 # Q2 - Shmython(Object System)
 # ------------------------------------------------
 def make_class(attrs, base=None):
     """Return a new class (a dispatch dictionary) with given class attributes"""
-
     def get(name):
-        if name in attrs:
-            return attrs[name]
-        elif base:
-            return base['get'](name)
-
-    def set(name, value):
-        attrs[name] = value
-
+        if name in attrs: return attrs[name]
+        elif base:        return base['get'](name)
+    def set(name, value): attrs[name] = value
     def new(*args):
         attrs = {}
-
         def get(name):
-            if name in attrs:
-                return attrs[name]
+            if name in attrs:       return attrs[name]
             else:
                 value = cls['get'](name)
-                if callable(value):
-                    return lambda *args: value(obj, *args)
-                else:
-                    return value
+                if callable(value): return lambda *args: value(obj, *args)
+                else:               return value
 
         # Setter: instance attribute (always sets in object)
-        def set(name, value):
-            attrs[name] = value
+        def set(name, value):       attrs[name] = value
 
         # instance dictionary
-        obj = {'get': get, 'set': set}
+        obj = { 'get': get, 'set': set }
 
         # calls constructor if present
         init = get('__init__')
@@ -171,36 +64,20 @@ def make_class(attrs, base=None):
         return obj
 
     # class dictionary
-    cls = {'get': get, 'set': set, 'new': new}
+    cls = { 'get': get, 'set': set, 'new': new }
     return cls
-
-
-
-
 # ------------------------------------------------
 def make_date_class():
-
-
-
-
-
-    Date1 = make_date_class()
-
-
-# ------------------------------------------------
+    pass
+Date1 = make_date_class()
+# ------------------------------------------------        
 def make_calentry_class():
     pass
-
-
 CalendarEntry1 = make_calentry_class()
-
-
 # ------------------------------------------------
 
 def make_time_class():
     pass
-
-
 Time1 = make_time_class()
 # ------------------------------------------------
 '''
@@ -218,42 +95,29 @@ Time1 = make_time_class()
 >>> todo['get']('tasks')
 {('10:00', '13:00'): 'PPL lecture', ('14:00', '16:00'): 'PPL homework#4'}
 '''
-
-
 # ------------------------------------------------
 # Q3 - Shmython (Object System)
 # ------------------------------------------------
 def make_class1(attrs, base=None):
     """Return a new class (a dispatch dictionary) with given class attributes"""
-
     def get(name):
-        if name in attrs:
-            return attrs[name]
-        elif base:
-            return base['get'](name)
-
-    def set(name, value):
-        attrs[name] = value
-
+        if name in attrs: return attrs[name]
+        elif base:        return base['get'](name)
+    def set(name, value): attrs[name] = value
     def new(*args):
         attrs = {}
-
         def get(name):
-            if name in attrs:
-                return attrs[name]
+            if name in attrs:       return attrs[name]
             else:
                 value = cls['get'](name)
-                if callable(value):
-                    return lambda *args: value(obj, *args)
-                else:
-                    return value
+                if callable(value): return lambda *args: value(obj, *args)
+                else:               return value
 
         # Setter: instance attribute (always sets in object)
-        def set(name, value):
-            attrs[name] = value
+        def set(name, value):       attrs[name] = value
 
         # instance dictionary
-        obj = {'get': get, 'set': set}
+        obj = { 'get': get, 'set': set }
 
         # calls constructor if present
         init = get('__init__')
@@ -262,19 +126,14 @@ def make_class1(attrs, base=None):
         return obj
 
     # class dictionary
-    cls = {'get': get, 'set': set, 'new': new}
+    cls = { 'get': get, 'set': set, 'new': new }
     return cls
-
-
 # ------------------------------------------------
 def make_account_class():
     def init(self, owner):
-        self['set']('owner', owner)
-        self['set']('balance', 0)
-
-    return make_class1({'__init__': init, 'interest': 0.03})
-
-
+        self['set']('owner',owner)
+        self['set']('balance',0)
+    return make_class1({'__init__' : init, 'interest' : 0.03})
 Account = make_account_class()
 # ------------------------------------------------
 '''
@@ -304,23 +163,17 @@ Account = make_account_class()
 'Discount'
 '''
 
-
 # ------------------------------------------------
 # Q4 - Generic Functions
 # ------------------------------------------------
 class Hours(object):
     pass
-
-
 # ------------------------------------------------
 class Days(object):
     pass
-
-
 # ------------------------------------------------
 class Weeks(object):
     pass
-
 
 # ------------------------------------------------
 ##############################
@@ -331,18 +184,14 @@ def type_tag(x):
     """Return the tag associated with the type of x."""
     return type_tag.tags[type(x)]
 
-
-type_tag.tags = {}
-
+type_tag.tags = { }
 
 def apply(operator_name, x, y):
     """Apply an operation ('add' or 'sub') to x and y."""
     tags = (type_tag(x), type_tag(y))
     key = (operator_name, tags)
     return apply.implementations[key](x, y)
-
-
-apply.implementations = {}
+apply.implementations={}
 
 # ------------------------------------------------
 '''
@@ -379,9 +228,7 @@ Days(9)'''
 ############
 
 
-coercions = {}
-
-
+coercions = { }
 def coerce_apply(operator_name, x, y):
     """Apply an operation ('add' or 'sub') to x and y."""
     tx, ty = type_tag(x), type_tag(y)
@@ -396,8 +243,7 @@ def coerce_apply(operator_name, x, y):
     key = (operator_name, tx)
     return coerce_apply.implementations[key](x, y)
 
-
-coerce_apply.implementations = {}
+coerce_apply.implementations = { }
 
 # ------------------------------------------------
 '''
@@ -417,15 +263,12 @@ Hours(24)
 Days(9)
 '''
 
-
 # ------------------------------------------------
 # Q5 - Exceptions
 # ------------------------------------------------
 def fill_list(*argv):
     pass
-
-
-# ------------------------------------------------
+# ------------------------------------------------    
 '''
 >>> fill_list()
 ValueError : Incorrect number of arguments
@@ -452,8 +295,6 @@ AssertionError : The list is not complete
 < Index: -1 >, IndexError : The place is busy
 [25, 15, 20, 5]
 '''
-
-
 # ------------------------------------------------
 # Q6 - Recursive Data Structures
 # ------------------------------------------------
@@ -462,21 +303,16 @@ class Tree():
         self.value = value
         self.nodes = nodes
 
-    def __repr__(self):
+    def __repr__(self): 
         if self.nodes:
-            return 'Tree({0},{1})'.format(self.value, repr(self.nodes))
+            return 'Tree({0},{1})'.format(self.value,repr(self.nodes))
         return 'Tree({0})'.format(self.value)
-
 
 def BuildTree(tree):
     pass
-
-
 # ------------------------------------------------
 def is_AVL_tree(tree):
     pass
-
-
 # ------------------------------------------------
 '''
 >>> t1 = BuildTree((((1,2), 3), (4, (5, 6))))
@@ -494,14 +330,13 @@ False
 Tree(4,[Tree(3,[Tree(1,[Tree(19), Tree(1), Tree(6)]), Tree(2,[Tree(1), Tree(1,[Tree(2), Tree(3)])])]), Tree(3,[Tree(2,[Tree(1,[Tree(1), Tree(2)]), Tree(6)]), Tree(2,[Tree(5), Tree(6), Tree(1,[Tree(8), Tree(2)])])])])
 >>> is_AVL_tree( t3 )
 True
->>> '''
+>>> ''' 
 
 # ------------------------------------------------
 # Q7 - Interpreter
 # ------------------------------------------------
 from functools import reduce
-from operator import mul, add
-
+from operator import mul,add
 
 def read_eval_print_loop():
     """Run a read-eval-print loop for calculator."""
@@ -515,12 +350,10 @@ def read_eval_print_loop():
             print('Calculation completed.')
             return
 
-
 # Eval & Apply
 
 class Exp(object):
     """A call expression in Calculator. """
-
     def __init__(self, operator, operands):
         self.operator = operator
         self.operands = operands
@@ -532,7 +365,6 @@ class Exp(object):
         operand_strs = ', '.join(map(str, self.operands))
         return '{0}({1})'.format(self.operator, operand_strs)
 
-
 def calc_eval(exp):
     """Evaluate a Calculator expression."""
     if type(exp) in (int, float):
@@ -540,7 +372,6 @@ def calc_eval(exp):
     if type(exp) == Exp:
         arguments = list(map(calc_eval, exp.operands))
         return calc_apply(exp.operator, arguments)
-
 
 def calc_apply(operator, args):
     """Apply the named operator to a list of args."""
@@ -558,8 +389,7 @@ def calc_apply(operator, args):
         if len(args) != 2:
             raise TypeError(operator + ' requires exactly 2 arguments')
         numer, denom = args
-        return numer / denom
-
+        return numer/denom
 
 # Parsing
 
@@ -571,15 +401,12 @@ def calc_parse(line):
         raise SyntaxError('Extra token(s): ' + ' '.join(tokens))
     return expression_tree
 
-
 def tokenize(line):
     """Convert a string into a list of tokens."""
-    spaced = line.replace('(', ' ( ').replace(')', ' ) ').replace(',', ' , ')
+    spaced = line.replace('(',' ( ').replace(')',' ) ').replace(',', ' , ')
     return spaced.strip().split()
 
-
 known_operators = ['add', 'sub', 'mul', 'div', '+', '-', '*', '/']
-
 
 def analyze(tokens):
     """Create a tree of nested lists from a sequence of tokens."""
@@ -594,7 +421,6 @@ def analyze(tokens):
     else:
         raise SyntaxError('unexpected ' + token)
 
-
 def analyze_operands(tokens):
     """Analyze a sequence of comma-separated operands."""
     assert_non_empty(tokens)
@@ -607,12 +433,10 @@ def analyze_operands(tokens):
     tokens.pop(0)  # Remove )
     return operands
 
-
 def assert_non_empty(tokens):
     """Raise an exception if tokens is empty."""
     if len(tokens) == 0:
         raise SyntaxError('unexpected end of line')
-
 
 def analyze_token(token):
     """Return the value of token if it can be analyzed as a number, or token."""
@@ -624,11 +448,8 @@ def analyze_token(token):
         except (TypeError, ValueError):
             return token
 
-
 def run():
     read_eval_print_loop()
-
-
 # ---------------------- a -----------------------
 '''
 calc> round(div(2,3),2)
@@ -651,103 +472,88 @@ calc> sumeven(12345)
 calc> mul(sumeven(12345),sumodd(3456))
 48
 '''
-
-
-# ------------------------------------------------
+# ------------------------------------------------            
 # driver
-# ------------------------------------------------
-def driver():
-    """
+# ------------------------------------------------            
+def driver( ):
     print('<<< Q1 >>>')
-    today = Date(2025, 9, 24)
-    print(repr(today))
-    print(today.year)
-    print(today)
+    today = Date( 2025, 9, 24 )
+    print( repr( today ) )
+    print( today.year )
+    print( today )
     todo = CalendarEntry(2025, 9, 24)
-    t = Time(10, 0)
-    print(str(t))
-    todo.addTask('PPL lecture', t, Time(13, 0))
-    todo.addTask('PPL homework#4', Time(14, 0), Time(16, 0))
-    print(todo.tasks)
-    print()
+    t = Time(10,0)
+    print( str( t ) )
+    todo.addTask('PPL lecture', t, Time(13,0))
+    todo.addTask('PPL homework#4', Time(14,0), Time(16,0))
+    print( todo.tasks )
     print(todo)
-    """
-    #"""
     print('<<< Q2 >>>')
     today = Date1['new'](2025, 9, 24)
-    print(today['get']('__str__')())
-    print(today['get']('year'))
+    print( today['get']('__str__')( ) )
+    print( today['get']('year') )
     todo = CalendarEntry1['new'](2025, 9, 24)
-    t = Time1['new'](10, 0)
-    print(t['get']('__str__')())
-    todo['get']('addTask')('PPL lecture', t, Time1['new'](13, 0))
-    todo['get']('addTask')('PPL homework#4', Time1['new'](14, 0), Time1['new'](16, 0))
-    print(todo['get']('tasks'))
-    #"""
-    """
+    t = Time1['new']( 10, 0 )
+    print( t['get']('__str__')( ) )
+    todo['get']('addTask')('PPL lecture', t, Time1['new'](13,0))
+    todo['get']('addTask')('PPL homework#4', Time1['new'](14,0), Time1['new'](16,0))
+    print( todo['get']('tasks') )
     print('<<< Q3 >>>')
     acc1 = Account['new']('Bob')
-    acc1['set']('bank', 'Leumi')
-    print(acc1['get']('owner'), end=', ')
-    print(acc1['get']('balance'), end=', ')
-    acc2 = Account['copy'](acc1)
-    print(acc2['get']('owner'), end=', ')
-    acc2['set']('owner', 'Jim')
-    print(acc1['get']('owner'), end=', ')
-    print(acc2['get']('owner'), end=', ')
-    acc2['set']('balance', 100)
-    print(acc1['get']('balance'), end=', ')
-    print(acc2['get']('balance'), end=', ')
-    acc2['set']('bank', 'Discount')
-    print(acc1['get']('bank'), end=', ')
-    print(acc2['get']('bank'))
-    """
-    """
+    acc1['set']('bank','Leumi')
+    print( acc1['get']('owner'), end = ', ' )
+    print( acc1['get']('balance'), end = ', ' )
+    acc2 = Account['copy']( acc1 )
+    print( acc2['get']('owner'), end = ', ' )
+    acc2['set']('owner','Jim')
+    print( acc1['get']('owner'), end = ', ' )
+    print( acc2['get']('owner'), end = ', ' )
+    acc2['set']('balance',100)
+    print( acc1['get']('balance'), end = ', ' )
+    print( acc2['get']('balance'), end = ', ' )
+    acc2['set']('bank','Discount')
+    print( acc1['get']('bank'), end = ', ' )
+    print( acc2['get']('bank') )
     print('<<< Q4 >>>')
-    h1, d1, w1 = Hours(14), Days(1), Weeks(2)
-    print(h1.value, end=', ')
-    print(repr(h1))
-    print(repr(d1), end=', ')
-    print(str(d1))
-    print(repr(w1), end=', ')
-    print(str(w1))
-    print(repr(apply('add', Hours(1), Days(2))), end=', ')
-    print(repr(apply('add', Days(2), Hours(48))), end=', ')
-    print(repr(apply('add', Weeks(2), Days(5))), end=', ')
-    print(repr(apply('add', Weeks(2), Hours(5))), end=', ')
-    print(repr(apply('sub', Hours(1), Days(2))), end=', ')
-    print(repr(apply('sub', Days(2), Hours(72))), end=', ')
-    print(repr(apply('sub', Weeks(2), Days(5))))
-    print(repr(coerce_apply('add', Hours(1), Days(2))), end=', ')
-    print(repr(coerce_apply('add', Days(2), Hours(48))), end=', ')
-    print(repr(coerce_apply('add', Weeks(2), Days(5))), end=', ')
-    print(repr(coerce_apply('add', Weeks(2), Hours(5))), end=', ')
-    print(repr(coerce_apply('sub', Hours(1), Days(2))), end=', ')
-    print(repr(coerce_apply('sub', Days(2), Hours(72))), end=', ')
-    print(repr(coerce_apply('sub', Weeks(2), Days(5))))
-    """
-    """
+    h1, d1, w1 = Hours( 14 ), Days( 1 ), Weeks( 2 )
+    print( h1.value, end = ', ' )
+    print( repr( h1 ) )
+    print( repr( d1 ), end = ', ' )
+    print( str( d1 ) )
+    print( repr( w1 ), end = ', ' )
+    print( str( w1 ) )
+    print( repr( apply('add',Hours(1),Days(2) ) ), end = ', ' )
+    print( repr( apply('add',Days(2),Hours(48) ) ), end = ', ' )
+    print( repr( apply('add',Weeks(2),Days(5) ) ), end = ', ' ) 
+    print( repr( apply('add',Weeks(2),Hours(5) ) ), end = ', ' )
+    print( repr( apply('sub',Hours(1),Days(2) ) ), end = ', ' )
+    print( repr( apply('sub',Days(2),Hours(72) ) ), end = ', ' )
+    print( repr( apply('sub',Weeks(2),Days(5) ) ) )
+    print( repr( coerce_apply('add',Hours(1),Days(2) ) ), end = ', ' )
+    print( repr( coerce_apply('add',Days(2),Hours(48) ) ), end = ', ' )
+    print( repr( coerce_apply('add',Weeks(2),Days(5) ) ), end = ', ' )
+    print( repr( coerce_apply('add',Weeks(2),Hours(5) ) ), end = ', ' )
+    print( repr( coerce_apply('sub',Hours(1),Days(2) ) ), end = ', ' )
+    print( repr( coerce_apply('sub',Days(2),Hours(72) ) ), end = ', ' )
+    print( repr( coerce_apply('sub',Weeks(2),Days(5) ) ))
     print('<<< Q5 >>>')
-    print(fill_list())
-    print(fill_list(1, 2, 3, 4, 5, 6))
-    print(fill_list(-3.5, 'Python'))
-    print(fill_list(4, 'Python'))
-    print(fill_list(4, ((1, 2, 3), [2, 3], (7, 8), 18)))
-    print(fill_list(4, ((3, 5), (-1, 10), (1, 15), (2, 20), (0, 25))))
-    """
-    """
+    print(fill_list( ) )
+    print( fill_list(1,2,3,4,5,6) )
+    print( fill_list(-3.5,'Python') )
+    print( fill_list(4,'Python') )
+    print( fill_list(4,((1,2,3),[2,3],(7,8),18) ) )
+    print( fill_list(4,((3,5),(-1,10),(1,15),(2,20),(0,25)) ) )
     print('<<< Q6 >>>')
-    t1 = BuildTree((((1, 2), 3), (4, (5, 6))))
-    print(repr(t1))
-    print(is_AVL_tree(t1))
+    t1 = BuildTree((((1,2), 3), (4, (5, 6))))
+    print( repr( t1 ) )
+    print( is_AVL_tree( t1 ) )
     t2 = BuildTree(((2, 3), (4, (5, 6, (8, 2)))))
-    print(repr(t2))
-    print(is_AVL_tree(t2))
-    t3 = BuildTree((((19, 1, 6), (1, (2, 3))), (((1, 2), 6), (5, 6, (8, 2)))))
-    print(repr(t3))
-    print(is_AVL_tree(t3))
-    """
-# ------------------------------------------------
+    print( repr( t2 ) )
+    print( is_AVL_tree( t2 ) )
+    t3 = BuildTree((((19,1,6), (1,(2,3))), (((1,2),6), (5, 6, (8, 2)))))
+    print( repr( t3 ) )
+    print( is_AVL_tree( t3 ) )
+# ------------------------------------------------            
 '''
 <<< Q1 >>>
 Date(2025,9,24)
@@ -799,4 +605,5 @@ False
 Tree(4,[Tree(3,[Tree(1,[Tree(19), Tree(1), Tree(6)]), Tree(2,[Tree(1), Tree(1,[Tree(2), Tree(3)])])]), Tree(3,[Tree(2,[Tree(1,[Tree(1), Tree(2)]), Tree(6)]), Tree(2,[Tree(5), Tree(6), Tree(1,[Tree(8), Tree(2)])])])])
 True
 '''
-driver()
+    
+    
