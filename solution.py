@@ -1,7 +1,6 @@
 from functools import reduce
 from unittest import case
 
-
 # ------------------------------------------------
 # Q1 - OOP (Python)
 # ------------------------------------------------
@@ -34,15 +33,13 @@ class Date:
             case 12: m = "december"
         return f"{self.get_day()}th of {m}, {self.get_year()}"
     def __repr__(self):
-        return self.get_day(), self.get_month(), self.get_year()
-
-
+        return str(self.get_day()) + str(self.get_month()) + str(self.get_year())
 
 # ------------------------------------------------
 class Time:
-    def __init__(self, minutes,hours):
-        self.hours=hours
-        self.minutes=minutes
+    def __init__(self, minutes, hours):
+        self.hours = hours
+        self.minutes = minutes
 
     def get_hours(self):
         return self.hours
@@ -53,12 +50,14 @@ class Time:
     def __eq__(self, other):
         return self.minutes == other.minutes and self.hours == other.hours
 
+    def __hash__(self):
+        return hash((self.get_minutes(), self.get_hours()))
 
     def __str__(self):
         return f"{self.get_minutes()}:{self.get_hours()}"
 
     def __repr__(self):
-        return f"day: {self.get_minutes()}, month: {self.get_hours()}"
+        return f"{self.get_minutes():02}:{self.get_hours():02}"
 
 
 # ------------------------------------------------
@@ -76,28 +75,36 @@ class CalendarEntry(Date):
         return self.year
     def get_tasks(self):
         return self.tasks
+
     #setters:
-    def set_task_list(self,task_list):
-        self.tasks = task_list
+    #def set_task_list(self,task_list):
+    #    self.tasks = task_list
 
     def addTask(self, task_name, start_time, end_time):
         start_time_taken = False
         end_time_taken = False
-        for n in self.tasks:
-            if start_time == n[1]: start_time_taken = True
-            if end_time == n[2]: end_time_taken = True
+        for n1,n2 in self.tasks.keys():
+            if start_time == n1: start_time_taken = True
+            if end_time == n2: end_time_taken = True
 
         if start_time_taken and end_time_taken:
             raise ValueError(f"Task {task_name} was already taken")
         else:
-            self.tasks = {[start_time, end_time]: task_name}
+            # self.tasks = {(start_time, end_time) : task_name}
+            self.tasks[(start_time, end_time)] = task_name
+            # self.tasks
 
     def __str__(self):
-        return self.get_tasks()
+        output_list = ""
+
+        for i, ((k1, k2), v) in enumerate(self.tasks.items()):
+            output_list += f"{i + 1}. {k1.__str__()} - {k2.__str__()} - {v}.\n"
+
+        return f"Todo list for {super().__str__()}:\n{output_list}"
+
     def __repr__(self):
         return self.get_day(), self.get_month(), self.get_year(), self.get_tasks()
 
-# today = Date(2025, 9, 24)
 # ------------------------------------------------
 '''
 >>> today = Date(2025, 9, 24)
@@ -658,6 +665,7 @@ def driver():
     todo.addTask('PPL lecture', t, Time(13, 0))
     todo.addTask('PPL homework#4', Time(14, 0), Time(16, 0))
     print(todo.tasks)
+    print()
     print(todo)
     #"""
     """
