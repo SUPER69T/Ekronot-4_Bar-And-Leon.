@@ -31,7 +31,7 @@ class Date:
             case 10: m = "october"
             case 11: m = "november"
             case 12: m = "december"
-        return f"{self.get_day()}th of {m}, {self.get_year()}"
+        return f"{self.get_day()}th of {m}, {self.get_year()}."
     def __repr__(self):
         return str(self.get_day()) + str(self.get_month()) + str(self.get_year())
 
@@ -128,32 +128,29 @@ Todo list for 24th of Sep, 2025 :
 2. 14:00 - 16:00 - PPL homework#4
 '''
 
-
 # ------------------------------------------------
 # Q2 - Shmython(Object System)
 # ------------------------------------------------
 def make_class(attrs, base=None):
     """Return a new class (a dispatch dictionary) with given class attributes"""
-
     def get(name):
         if name in attrs:
             return attrs[name]
-        elif base:
+        elif base is not None: #added is not None.
             return base['get'](name)
-
     def set(name, value):
         attrs[name] = value
-
     def new(*args):
         attrs = {}
 
         def get(name):
+            #nonlocal *args
             if name in attrs:
                 return attrs[name]
             else:
                 value = cls['get'](name)
                 if callable(value):
-                    return lambda *args: value(obj, *args)
+                    return lambda *args: value(obj, *args) #the new method's attributes.
                 else:
                     return value
 
@@ -166,7 +163,7 @@ def make_class(attrs, base=None):
 
         # calls constructor if present
         init = get('__init__')
-        if init: init(*args)
+        if init: init(*args) #
 
         return obj
 
@@ -174,22 +171,50 @@ def make_class(attrs, base=None):
     cls = {'get': get, 'set': set, 'new': new}
     return cls
 
-
-
-
 # ------------------------------------------------
 def make_date_class():
+    def __init__(self,year,month,day):
+        self['set']('year',year)
+        self['set']('month', month)
+        self['set']('day', day)
 
+    def __str__(self):
 
+        match self['get']('month'):
+            case 1:
+                m = "january"
+            case 2:
+                m = "february"
+            case 3:
+                m = "march"
+            case 4:
+                m = "april"
+            case 5:
+                m = "may"
+            case 6:
+                m = "june"
+            case 7:
+                m = "july"
+            case 8:
+                m = "august"
+            case 9:
+                m = "september"
+            case 10:
+                m = "october"
+            case 11:
+                m = "november"
+            case 12:
+                m = "december"
 
+        return f"{self['get']('day')}th of {m}, {self['get']('year')}."
 
+    return make_class({'__init__':__init__, '__str__':__str__})
 
-    Date1 = make_date_class()
-
+Date1 = make_date_class()
 
 # ------------------------------------------------
-def make_calentry_class():
-    pass
+def make_calentry_class(make_date_class):
+    def __init__(self,)
 
 
 CalendarEntry1 = make_calentry_class()
@@ -677,12 +702,14 @@ def driver():
     today = Date1['new'](2025, 9, 24)
     print(today['get']('__str__')())
     print(today['get']('year'))
+    """
     todo = CalendarEntry1['new'](2025, 9, 24)
     t = Time1['new'](10, 0)
     print(t['get']('__str__')())
     todo['get']('addTask')('PPL lecture', t, Time1['new'](13, 0))
     todo['get']('addTask')('PPL homework#4', Time1['new'](14, 0), Time1['new'](16, 0))
     print(todo['get']('tasks'))
+    """
     #"""
     """
     print('<<< Q3 >>>')
