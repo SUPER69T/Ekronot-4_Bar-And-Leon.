@@ -213,9 +213,14 @@ def make_date_class():
 Date1 = make_date_class()
 
 # ------------------------------------------------
-def make_calentry_class(make_date_class):
-    def __init__(self,)
+def make_calentry_class():
+    def __init__(self):
+        pass
 
+    def __str__(self):
+        pass
+
+    return make_class({'__init__': __init__, '__str__': __str__}, )#add super_class here.
 
 CalendarEntry1 = make_calentry_class()
 
