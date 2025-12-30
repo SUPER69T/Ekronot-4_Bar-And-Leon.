@@ -31,9 +31,9 @@ class Date:
             case 10: m = "october"
             case 11: m = "november"
             case 12: m = "december"
-        return f"{self.get_day()}th of {m}, {self.get_year()}."
+        return f"{self.get_day()}th of {m}, {self.get_year()}"
     def __repr__(self):
-        return str(self.get_day()) + str(self.get_month()) + str(self.get_year())
+        return str(self.get_year()) + " " + str(self.get_month()) + " " + str(self.get_day())
 
 # ------------------------------------------------
 class Time:
@@ -61,18 +61,20 @@ class Time:
 
 
 # ------------------------------------------------
-class CalendarEntry(Date):
+class CalendarEntry():
     def __init__(self, day, month, year):
-        super().__init__(day, month, year)
+        self.date = Date(day, month, year)
         self.tasks = {}
 
     #getters:
+    def get_date(self):
+        return self.date
     def get_day(self):
-        return self.day
+        return self.date.get_day()
     def get_month(self):
-        return self.month
+        return self.date.get_month()
     def get_year(self):
-        return self.year
+        return self.date.get_year()
     def get_tasks(self):
         return self.tasks
 
@@ -88,7 +90,7 @@ class CalendarEntry(Date):
             if end_time == n2: end_time_taken = True
 
         if start_time_taken and end_time_taken:
-            raise ValueError(f"Task {task_name} was already taken")
+            print(f"Task {task_name} was already taken")
         else:
             # self.tasks = {(start_time, end_time) : task_name}
             self.tasks[(start_time, end_time)] = task_name
@@ -100,7 +102,7 @@ class CalendarEntry(Date):
         for i, ((k1, k2), v) in enumerate(self.tasks.items()):
             output_list += f"{i + 1}. {k1.__str__()} - {k2.__str__()} - {v}.\n"
 
-        return f"Todo list for {super().__str__()}:\n{output_list}"
+        return f"Todo list for {self.get_date().__str__()}:\n{output_list}"
 
     def __repr__(self):
         return f"{self.get_day()}, {self.get_month()}, {self.get_year()}, {self.get_tasks()}"
@@ -214,13 +216,14 @@ Date1 = make_date_class()
 
 # ------------------------------------------------
 def make_calentry_class():
-    def __init__(self):
-        pass
+    def __init__(self, year , month, day):
+        self['set']('year', year)
+        date = Date1['new'](year, month, day)
 
     def __str__(self):
         pass
 
-    return make_class({'__init__': __init__, '__str__': __str__}, )#add super_class here.
+    return make_class({'__init__': __init__, '__str__': __str__})
 
 CalendarEntry1 = make_calentry_class()
 
@@ -707,14 +710,13 @@ def driver():
     today = Date1['new'](2025, 9, 24)
     print(today['get']('__str__')())
     print(today['get']('year'))
-    """
+    
     todo = CalendarEntry1['new'](2025, 9, 24)
     t = Time1['new'](10, 0)
     print(t['get']('__str__')())
     todo['get']('addTask')('PPL lecture', t, Time1['new'](13, 0))
     todo['get']('addTask')('PPL homework#4', Time1['new'](14, 0), Time1['new'](16, 0))
     print(todo['get']('tasks'))
-    """
     #"""
     """
     print('<<< Q3 >>>')
