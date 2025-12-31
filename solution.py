@@ -143,10 +143,9 @@ def make_class(attrs, base=None):
     def set(name, value):
         attrs[name] = value
     def new(*args):
-        attrs = {}
+        attrs = {} #object attributes.
 
         def get(name):
-            #nonlocal *args
             if name in attrs:
                 return attrs[name]
             else:
@@ -165,7 +164,7 @@ def make_class(attrs, base=None):
 
         # calls constructor if present
         init = get('__init__')
-        if init: init(*args) #
+        if init: init(*args)
 
         return obj
 
@@ -217,13 +216,10 @@ Date1 = make_date_class()
 # ------------------------------------------------
 def make_calentry_class():
     def __init__(self, year , month, day):
-        self['set']('year', year)
-        date = Date1['new'](year, month, day)
+        self['set']('date', Date1['new'](year, month, day))
+        self['set']('tasks', {})
 
-    def __str__(self):
-        pass
-
-    return make_class({'__init__': __init__, '__str__': __str__})
+    return make_class({'__init__': __init__})
 
 CalendarEntry1 = make_calentry_class()
 
@@ -231,9 +227,14 @@ CalendarEntry1 = make_calentry_class()
 # ------------------------------------------------
 
 def make_time_class():
-    pass
+    def __init__(self, minutes, hours):
+        self['set']('minutes',minutes)
+        self['set']('hours', hours)
 
+    def __str__(self):
+        pass
 
+    return make_class({'__init__':__init__, '__str__':__str__})
 Time1 = make_time_class()
 # ------------------------------------------------
 '''
