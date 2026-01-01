@@ -219,7 +219,10 @@ def make_calentry_class():
         self['set']('date', Date1['new'](year, month, day))
         self['set']('tasks', {})
 
-    return make_class({'__init__': __init__})
+    def addTask(self, name, t1, t2):
+        self['get']('tasks')[(t1['get']('__str__')(), t2['get']('__str__')())] = name
+
+    return make_class({'__init__': __init__, 'addTask': addTask})
 
 CalendarEntry1 = make_calentry_class()
 
@@ -232,7 +235,7 @@ def make_time_class():
         self['set']('hours', hours)
 
     def __str__(self):
-        pass
+        return f"{self['get']('minutes'):02} : {self['get']('hours'):02}"
 
     return make_class({'__init__':__init__, '__str__':__str__})
 Time1 = make_time_class()
