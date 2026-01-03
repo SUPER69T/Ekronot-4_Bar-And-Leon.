@@ -319,6 +319,7 @@ def make_account_class():
             return temp_acc
         else:
             print("not an instance of Account class")
+            return None #so that the driver doesnt crash(?)
 
     def isinstanceof(obj):
         if not isinstance(obj, dict) or 'get' not in obj:# checking whether 'obj' has the 'get' instance - attribute,
@@ -337,6 +338,7 @@ def make_account_class():
 
         return 'copy' in Account and callable(Account['get']('copy')) #the class has a 'copy' key within it's -
         #methods-dictionary, and: 'copy' is actually callable, meaning it's a well-defined - 'method' within our class.
+
 
     return make_class1({'__init__': init, 'interest': 0.03, 'copy': copy, 'isinstanceof' : isinstanceof})
 
