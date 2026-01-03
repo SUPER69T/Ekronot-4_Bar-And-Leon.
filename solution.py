@@ -299,7 +299,7 @@ def make_class1(attrs, base=None):
         return obj
 
     # class dictionary
-    cls = {'get': get, 'set': set, 'new': new}
+    cls = {'get': get, 'set': set, 'new': new}#, 'copy' : copy
     return cls
 
 
@@ -309,7 +309,36 @@ def make_account_class():
         self['set']('owner', owner)
         self['set']('balance', 0)
 
-    return make_class1({'__init__': init, 'interest': 0.03})
+    #def init(self, owner, other):
+
+    def copy(other):
+        if isinstance(other):
+            #creating a new object of class - 'make_account_class' - type, and copying all obj - attributes.
+            temp_acc = Account['new'](other['get']('owner'))
+            temp_acc['set']('balance', other['get']('balance'))
+            return temp_acc
+        else:
+            print("not an instance of Account class")
+
+    def isinstanceof(obj):
+        if not isinstance(obj, dict) or 'get' not in obj:# checking whether 'obj' has the 'get' instance - attribute,
+            #or an attributes-dictionary in and by itself as a quick - entrance-check.
+            #ngl: GPT recommended checking this way, even though my original idea was integrating the built-in python isinstanceof - method,
+            #but these classes don't have that same isinstanceof attribute, and all objects do contain some other 'checkable' data we can -
+            #work with like the get/set instance attributes, or the class's attributes: 'copy' / 'balance'.
+            return False
+
+        try:
+            obj['get']('owner')   #}checking for instance attributes.
+            obj['get']('balance') #}
+
+        except KeyError: #google says this is used for keys-in-a-dictionary Error raising:
+            return False
+
+        return 'copy' in Account and callable(Account['get']('copy')) #the class has a 'copy' key within it's -
+        #methods-dictionary, and: 'copy' is actually callable, meaning it's a well-defined - 'method' within our class.
+
+    return make_class1({'__init__': init, 'interest': 0.03, 'copy': copy, 'isinstanceof' : isinstanceof})
 
 
 Account = make_account_class()
@@ -321,7 +350,8 @@ Account = make_account_class()
 'Bob'
 >>> acc1['get']('balance')
 0
->>> acc2 = Account['copy']( acc1 )
+>>> acc2 = Account['copy']( acc1 ) #this type of copy method - 
+#initiation requires - copy to be a
 >>> acc2['get']('owner')
 'Bob'
 >>> acc2['set']('owner','Jim')
@@ -709,7 +739,7 @@ def driver():
     print()
     print(todo)
     """
-    #"""
+    """
     print('<<< Q2 >>>')
     today = Date1['new'](2025, 9, 24)
     print(today['get']('__str__')())
@@ -721,8 +751,8 @@ def driver():
     todo['get']('addTask')('PPL lecture', t, Time1['new'](13, 0))
     todo['get']('addTask')('PPL homework#4', Time1['new'](14, 0), Time1['new'](16, 0))
     print(todo['get']('tasks'))
-    #"""
     """
+    #"""
     print('<<< Q3 >>>')
     acc1 = Account['new']('Bob')
     acc1['set']('bank', 'Leumi')
@@ -739,7 +769,7 @@ def driver():
     acc2['set']('bank', 'Discount')
     print(acc1['get']('bank'), end=', ')
     print(acc2['get']('bank'))
-    """
+    #"""
     """
     print('<<< Q4 >>>')
     h1, d1, w1 = Hours(14), Days(1), Weeks(2)
