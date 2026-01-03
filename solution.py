@@ -324,9 +324,9 @@ def make_account_class():
     def isinstanceof(obj):
         if not isinstance(obj, dict) or 'get' not in obj:# checking whether 'obj' has the 'get' instance - attribute,
             #or an attributes-dictionary in and by itself as a quick - entrance-check.
-            #ngl: GPT recommended checking this way, even though my original idea was integrating the built-in python isinstanceof - method,
-            #but these classes don't have that same isinstanceof attribute, and all objects do contain some other 'checkable' data we can -
-            #work with like the get/set instance attributes, or the class's attributes: 'copy' / 'balance'.
+            #ngl: GPT recommended checking this way, even though my original idea was integrating the built-in python isinstance - method,
+            #but these classes don't have that same isinstance attribute so additional checks are recommended. that said: all objects -
+            #do contain some other 'checkable' data we can work with like the get/set instance attributes, or the class's attributes: 'copy' / 'balance'.
             return False
 
         try:
