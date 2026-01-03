@@ -312,7 +312,7 @@ def make_account_class():
     #def init(self, owner, other):
 
     def copy(other):
-        if isinstance(other):
+        if isinstanceof(other):
             #creating a new object of class - 'make_account_class' - type, and copying all obj - attributes.
             temp_acc = Account['new'](other['get']('owner'))
             temp_acc['set']('balance', other['get']('balance'))
