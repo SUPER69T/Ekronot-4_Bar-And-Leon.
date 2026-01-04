@@ -260,7 +260,8 @@ Time1 = make_time_class()
 # ------------------------------------------------
 # Q3 - Shmython (Object System)
 # ------------------------------------------------
-def make_class1(attrs, base=None):
+def make_class1(attrs, base=None): #זה לא לתקן את הקוד, זה להרוס אותו...
+    #הסברתי עוד בהמשך אבל קריאה כזאת ל-copy כמו שביקשו היא לא נכונה מבחינת בניית הפרוייקט הזה.
     """Return a new class (a dispatch dictionary) with given class attributes"""
 
     def get(name):
@@ -299,9 +300,9 @@ def make_class1(attrs, base=None):
         return obj
 
     # class dictionary
-    cls = {'get': get, 'set': set, 'new': new}#, 'copy' : copy
+    cls = {'get': get, 'set': set, 'new': new, **attrs} #adding 'copy' here makes no sense...
+    #so might as well just feed all class-attributes in here...
     return cls
-
 
 # ------------------------------------------------
 def make_account_class():
@@ -312,6 +313,13 @@ def make_account_class():
     #def init(self, owner, other):
 
     def copy(other):
+
+        """turned out to be not true:
+        global Account #was causing us a lot of trouble, because "new" declaration -
+        #that requires using an out-of-scope object like "Account" inside the declared -
+        #"make_account_class" class it is declared as by itself caused unexpected behavior.
+        """
+
         if isinstanceof(other):
             #creating a new object of class - 'make_account_class' - type, and copying all obj - attributes.
             temp_acc = Account['new'](other['get']('owner'))
@@ -333,7 +341,7 @@ def make_account_class():
             obj['get']('owner')   #}checking for instance attributes.
             obj['get']('balance') #}
 
-        except KeyError: #google says this is used for keys-in-a-dictionary Error raising:
+        except KeyError: #google says this error is used for keys-in-a-dictionary Error - raising.
             return False
 
         return 'copy' in Account and callable(Account['get']('copy')) #the class has a 'copy' key within it's -
@@ -352,8 +360,19 @@ Account = make_account_class()
 'Bob'
 >>> acc1['get']('balance')
 0
+
+#-----
 >>> acc2 = Account['copy']( acc1 ) #this type of copy method - 
-#initiation requires - copy to be a
+#tries to gain access to 'copy' as a static method of the Account class itself -
+#which means we should declare it within the "make_account_class" - class itself,
+#as a class-attribute and not as an instance attribute.
+another issues is:
+#for 'copy' to work as a raw access into the class's attributes without requiring -
+#the 'get' function in cls it has to be defined this way: Account['get']('copy')(acc1).
+#which means we are violating the abstraction of - make_class1 by adding copy as a -
+#system level method to all future declared classes created...
+#-----
+
 >>> acc2['get']('owner')
 'Bob'
 >>> acc2['set']('owner','Jim')
