@@ -773,7 +773,7 @@ def driver():
     todo['get']('addTask')('PPL homework#4', Time1['new'](14, 0), Time1['new'](16, 0))
     print(todo['get']('tasks'))
     """
-    #"""
+    """
     print('<<< Q3 >>>')
     acc1 = Account['new']('Bob')
     acc1['set']('bank', 'Leumi')
@@ -790,8 +790,8 @@ def driver():
     acc2['set']('bank', 'Discount')
     print(acc1['get']('bank'), end=', ')
     print(acc2['get']('bank'))
-    #"""
     """
+    #"""
     print('<<< Q4 >>>')
     h1, d1, w1 = Hours(14), Days(1), Weeks(2)
     print(h1.value, end=', ')
@@ -814,7 +814,7 @@ def driver():
     print(repr(coerce_apply('sub', Hours(1), Days(2))), end=', ')
     print(repr(coerce_apply('sub', Days(2), Hours(72))), end=', ')
     print(repr(coerce_apply('sub', Weeks(2), Days(5))))
-    """
+    #"""
     """
     print('<<< Q5 >>>')
     print(fill_list())
